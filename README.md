@@ -1,3 +1,56 @@
+# Metodos de las pruebas
+
+* beforeAll() // Antes que todas
+* beforeEach() // Antes que cada una
+* afterAll(); // Despues de todas
+* afterEach(); // Despues de cada una
+
+## Para sacar el informe de cobertura de las pruebas se corre el siguiente comando
+``` sh
+ng test --code-coverage
+```
+Rebisar que en el angular.json en la parte de options de test este lo siguiente
+```
+"sourceMap": true,
+```
+debe de quedar asi:
+``` js
+"test": {
+    "builder": "@angular-devkit/build-angular:karma",
+    "options": {
+        "main": "src/test.ts",
+        "polyfills": "src/polyfills.ts",
+        "tsConfig": "src/tsconfig.spec.json",
+        "karmaConfig": "src/karma.conf.js",
+        "sourceMap": true,
+        "styles": [
+            "src/styles.css"
+        ],
+        "scripts": [],
+        "assets": [
+            "src/favicon.ico",
+            "src/assets"
+        ]
+    }
+},
+```
+
+## Para utilizar map en angular 6 es necesario instalar lo siguiente 
+```sh
+npm i rxjs-compat 
+```
+## Simular servicios en los test
+```
+it('Init debe de cargar los medicos', () => {
+    const medicos = ['Medico1', 'Medico2', 'Medico3'];
+    spyOn(servicio, 'getMedicos').and.callFake( () => {
+        return Observable.from([medicos]);
+    });
+    componente.ngOnInit();
+    expect(componente.medicos.length).toBeGreaterThan(0);
+});
+```
+
 # Pruebas
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
