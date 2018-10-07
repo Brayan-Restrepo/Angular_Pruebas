@@ -35,6 +35,22 @@ debe de quedar asi:
 },
 ```
 
+## Para utilizar map en angular 6 es necesario instalar lo siguiente 
+```sh
+npm i rxjs-compat 
+```
+## Simular servicios en los test
+```
+it('Init debe de cargar los medicos', () => {
+    const medicos = ['Medico1', 'Medico2', 'Medico3'];
+    spyOn(servicio, 'getMedicos').and.callFake( () => {
+        return Observable.from([medicos]);
+    });
+    componente.ngOnInit();
+    expect(componente.medicos.length).toBeGreaterThan(0);
+});
+```
+
 # Pruebas
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
