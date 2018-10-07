@@ -1,10 +1,39 @@
 # Metodos de las pruebas
 
-beforeAll() // Antes que todas
-beforeEach() // Antes que cada una
-afterAll(); // Despues de todas
-afterEach(); // Despues de cada una
+* beforeAll() // Antes que todas
+* beforeEach() // Antes que cada una
+* afterAll(); // Despues de todas
+* afterEach(); // Despues de cada una
 
+## Para sacar el informe de cobertura de las pruebas se corre el siguiente comando
+``` sh
+ng test --code-coverage
+```
+Rebisar que en el angular.json en la parte de options de test este lo siguiente
+```
+"sourceMap": true,
+```
+debe de quedar asi:
+``` js
+"test": {
+    "builder": "@angular-devkit/build-angular:karma",
+    "options": {
+        "main": "src/test.ts",
+        "polyfills": "src/polyfills.ts",
+        "tsConfig": "src/tsconfig.spec.json",
+        "karmaConfig": "src/karma.conf.js",
+        "sourceMap": true,
+        "styles": [
+            "src/styles.css"
+        ],
+        "scripts": [],
+        "assets": [
+            "src/favicon.ico",
+            "src/assets"
+        ]
+    }
+},
+```
 
 # Pruebas
 
