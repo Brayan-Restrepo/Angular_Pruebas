@@ -3,6 +3,7 @@ import { MedicosService } from './medicos.service';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/empty';
+import 'rxjs/add/observable/throw';
 
 describe('MedicosComponent', () => {
 
@@ -33,8 +34,43 @@ describe('MedicosComponent', () => {
         // Haber sido llamadp
         expect(spy).toHaveBeenCalled();
     });
-    
-    it('Debe de agregar un nuevo medico al arreglo de medicos', () => {
 
+    it('Debe de agregar un nuevo medico al arreglo de medicos', () => {
+        const medico = { id: 1, nombre: 'Brayan' };
+        spyOn(servicio, 'agregarMedico')
+            .and.returnValue( Observable.from([medico]));
+        componente.agregarMedico();
+        expect(componente.medicos.indexOf(medico)).toBeGreaterThanOrEqual(0);
+    });
+
+    it('Si falla la adicion, la propiedad mensajeError, debe de ser igual al error del servicio', () => {
+        const miError = 'Error en el medico';
+        spyOn(servicio, 'agregarMedico').and.returnValue( Observable.throw(miError) );
+        componente.agregarMedico();
+        expect(componente.mensajeError).toBe(miError);
+    });
+
+    it('Debe de llamar al servicor para borrar un medico', () => {
+        // espia para el alert() del navegador
+        spyOn(window, 'confirm').and.returnValue(true);
+
+        const espia = spyOn(servicio, 'borrarMedico')
+            .and.callFake( () => Observable.empty() );
+
+        componente.borrarMedico('1');
+        // Que sea llamado con un dato
+        expect(espia).toHaveBeenCalledWith('1');
+    });
+
+    it('No, Debe de llamar al servicor para borrar un medico', () => {
+        // espia para el alert() del navegador
+        spyOn(window, 'confirm').and.returnValue(false);
+
+        const espia = spyOn(servicio, 'borrarMedico')
+            .and.callFake( () => Observable.empty() );
+
+        componente.borrarMedico('1');
+        // Que sea llamado con un dato
+        expect(espia).not.toHaveBeenCalledWith('1');
     });
 });
