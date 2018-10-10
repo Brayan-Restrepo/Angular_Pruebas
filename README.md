@@ -52,6 +52,7 @@ it('Init debe de cargar los medicos', () => {
 ```
 
 ## Para tener en cuenta
+
 ```ts
 it('Debe de mostrar la leyenda', () => {
     component.leyenda = 'Progreso de carga';
@@ -59,6 +60,18 @@ it('Debe de mostrar la leyenda', () => {
     fixture.detectChanges();
     const elem: HTMLElement = fixture.debugElement.query(By.css('h3')).nativeElement;
     expect(elem.innerHTML).toContain('Progreso de carga');
+});
+
+it('Debe de mostrar en el input el valor del progreso', () => {
+    component.cambiarValor(5);
+    fixture.detectChanges();
+
+    // Como la deteccion de cambios puede demosrar un poco
+    // llama a un promesa
+    fixture.whenStable().then( () => {
+        const input = fixture.debugElement.query(By.css('input')).nativeElement;
+        expect(input.value).toBe('55');
+    });
 });
 ```
 
