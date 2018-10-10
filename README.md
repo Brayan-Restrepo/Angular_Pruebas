@@ -51,6 +51,17 @@ it('Init debe de cargar los medicos', () => {
 });
 ```
 
+## Para tener en cuenta
+```ts
+it('Debe de mostrar la leyenda', () => {
+    component.leyenda = 'Progreso de carga';
+    // Dectetar la detección de cambios
+    fixture.detectChanges();
+    const elem: HTMLElement = fixture.debugElement.query(By.css('h3')).nativeElement;
+    expect(elem.innerHTML).toContain('Progreso de carga');
+});
+```
+
 # Pruebas
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
